@@ -8,7 +8,6 @@
   outputs = {
     self,
     nixpkgs,
-    hyprland,
     ...
   } @ inputs: {
     nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
