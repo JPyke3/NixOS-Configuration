@@ -136,5 +136,46 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      hyprland = inputs.hyprland.packages.${pkgs.system}.hyprland;
+      wlroots-hyprland = inputs.hyprland.packages.${pkgs.system}.wlroots-hyprland;
+      wlroots = inputs.nixpkgs_unstable.legacyPackages.${pkgs.system}.wlroots;
+    })
+    (final: prev: {
+      wlroots = prev.wlroots.override {
+        xwayland = prev.xwayland;
+        mesa = pkgs.mesa;
+      };
+    })
+    (final: prev: {
+      wlroots = prev.wlroots.overrideAttrs (old: {
+        nativeBuildInputs =
+          old.nativeBuildInputs
+          ++ [inputs.nixpkgs_unstable.legacyPackages.${pkgs.system}.libdrm];
+      });
+    })
+    (final: prev: {
+      wlroots-hyprland = prev.wlroots-hyprland.override {wlroots = prev.wlroots;};
+    })
+    (final: prev: {
+      hyprland = prev.hyprland.override {
+        mesa = pkgs.mesa;
+        wlroots = prev.wlroots-hyprland;
+      };
+    })
+  ];
+
+  programs.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  };
+
+  {
+  nix.settings = {
+    substituters = ["https://hyprland.cachix.org"];
+    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+  };
+
   system.stateVersion = "23.11"; # Did you read the comment?
 }
