@@ -3,6 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs_unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    hyprland.url = "github:hyprland/nixos";
   };
 
   outputs = {
@@ -12,6 +14,7 @@
   } @ inputs: {
     nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = {inherit inputs;};
       modules = [
         ./hosts/desktop/configuration.nix
       ];
