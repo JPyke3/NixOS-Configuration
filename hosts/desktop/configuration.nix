@@ -43,11 +43,6 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
 
-  hyprland.nixosModules.default = {
-    programs.hyprland.enable = true;
-    programs.hyprland.xwayland.enable = true;
-  };
-
   programs.zsh.enable = true;
 
   # Configure keymap in X11
