@@ -7,7 +7,7 @@ for file in $(find . -name "*.nix"); do
 done
 git diff -U0 *.nix
 echo "NixOS Rebuilding..."
-sudo nixos-rebuild switch --flake .#desktop &>~/.logs/nixos-rebuild.log || (cat ~/.logs/nixos-rebuild.log | grep --color=error && false)
+sudo nixos-rebuild switch --flake .#desktop &>~/.logs/nixos-rebuild.log || (cat ~/.logs/nixos-rebuild.log | grep --color error && false)
 gen=$(nixos-rebuild list-generations | grep current)
 git commit -am "NixOS Rebuild: $gen"
 cd $CURRENT_DIR
