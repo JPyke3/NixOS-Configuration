@@ -5,6 +5,7 @@
   config,
   lib,
   pkgs,
+  hyprland,
   ...
 }: {
   imports = [
@@ -15,7 +16,6 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
   networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -44,7 +44,10 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
 
-  programs.hyprland.enable = true;
+  hyprland.nixosModules.default = {
+    programs.hyprland.enable = true;
+    xwayland.enable = true;
+  };
 
   programs.zsh.enable = true;
 

@@ -2,8 +2,12 @@
   description = "Jacobs NixOS System Flake";
 
   inputs = {
-    # NixOS official package source, using the nixos-23.11 branch here
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+
+	hyprland = {
+	  url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs"; # MESA/OpenGL HW workaround
+	}
   };
 
   outputs = {
@@ -11,12 +15,9 @@
     nixpkgs,
     ...
   } @ inputs: {
-    # Please replace my-nixos with your hostname
     nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        # Import the previous configuration.nix we used,
-        # so the old configuration file still takes effect
         ./hosts/desktop/configuration.nix
       ];
     };
