@@ -13,10 +13,12 @@
   outputs = {
     self,
     nixpkgs,
+    hyprland,
     ...
   } @ inputs: {
     nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      inherit hyprland;
       modules = [
         ./hosts/desktop/configuration.nix
       ];
