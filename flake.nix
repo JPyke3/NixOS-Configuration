@@ -14,7 +14,6 @@
     nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = {inherit inputs;};
-      nixpkgs.config.allowUnfree = true;
       modules = [
         ./hosts/desktop/configuration.nix
       ];
